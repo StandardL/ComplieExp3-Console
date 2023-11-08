@@ -7,6 +7,7 @@ if(0<x)
   until x = 0;
   write fact
 else
+  fact := 1;
   for fact := x downto 1 do 
     fact := fact * x;
   enddo

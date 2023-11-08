@@ -24,7 +24,7 @@
 #endif
 
 /* MAXRESERVED = the number of reserved words */
-#define MAXRESERVED 8
+#define MAXRESERVED 13
 
 typedef enum
 /* book-keeping tokens */
@@ -37,7 +37,7 @@ typedef enum
 	/* special symbols */
 	ASSIGN, EQ, LT, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI,
 	/* for loop */
-	FOR, TO, DO, DOWNTO
+	FOR, TO, DO, DOWNTO, ENDDO
 } TokenType;
 
 extern FILE* source; /* source code text file */
@@ -51,7 +51,7 @@ extern int lineno; /* source line number for listing */
 /**************************************************/
 
 typedef enum { StmtK, ExpK } NodeKind;
-typedef enum { IfK, RepeatK, AssignK, ReadK, WriteK } StmtKind;
+typedef enum { IfK, RepeatK, AssignK, ReadK, WriteK, ForK } StmtKind;
 typedef enum { OpK, ConstK, IdK } ExpKind;
 
 /* ExpType is used for type checking */
