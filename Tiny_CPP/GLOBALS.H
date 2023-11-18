@@ -1,4 +1,4 @@
-/****************************************************/
+﻿/****************************************************/
 /* File: globals.h                                  */
 /* Global types and vars for TINY compiler          */
 /* must come before other include files             */
@@ -14,6 +14,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <string>
+using std::string;
 
 #ifndef FALSE
 #define FALSE 0
@@ -35,7 +36,7 @@ typedef enum
 	/* multicharacter tokens */
 	ID, NUM,
 	/* special symbols */
-	ASSIGN, EQ, LT, GT, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI, REM, POW,
+	ASSIGN, PLUSASSIGN, EQ, LT, GT, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI, REM, POW,
 	/* for loop */
 	FOR, TO, DO, DOWNTO, ENDDO
 } TokenType;

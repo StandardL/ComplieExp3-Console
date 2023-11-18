@@ -1,4 +1,4 @@
-/****************************************************/
+﻿/****************************************************/
 /* File: analyze.h                                  */
 /* Semantic analyzer interface for TINY compiler    */
 /* Compiler Construction: Principles and Practice   */

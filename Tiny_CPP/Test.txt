@@ -1,8 +1,9 @@
-read x;
+﻿read x;
 if(0<x)
   fact := 1;
   fact := x % 2;
   fact := x ^ 2;
+  temp += 1;
   repeat
     fact := fact * x;
     x := x - 1
