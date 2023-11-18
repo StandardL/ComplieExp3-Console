@@ -1,4 +1,4 @@
-﻿read x;
+read x;
 if(0<x)
   fact := 1;
   fact := x % 2;
