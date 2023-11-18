@@ -1,4 +1,4 @@
-/****************************************************/
+﻿/****************************************************/
 /* File: util.c                                     */
 /* Utility function implementation                  */
 /* for the TINY compiler                            */
@@ -28,6 +28,7 @@ void printToken(TokenType token, const char* tokenString)
 			"reserved word: %s\n", tokenString);
 		break;
 	case ASSIGN: fprintf(listing, ":=\n"); break;
+	case PLUSASSIGN: fprintf(listing, "+:=\n"); break;
 	case LT: fprintf(listing, "<\n"); break;
 	case EQ: fprintf(listing, "=\n"); break;
 	case LPAREN: fprintf(listing, "(\n"); break;
@@ -155,6 +156,9 @@ void printTree(TreeNode* tree)
 				break;
 			case WriteK:
 				fprintf(listing, "Write\n");
+				break;
+			case ForK:
+				fprintf(listing, "For: \n");
 				break;
 			default:
 				fprintf(listing, "Unknown ExpNode kind\n");

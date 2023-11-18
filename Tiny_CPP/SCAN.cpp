@@ -1,4 +1,4 @@
-/****************************************************/
+﻿/****************************************************/
 /* File: scan.c                                     */
 /* The scanner implementation for the TINY compiler */
 /* Compiler Construction: Principles and Practice   */
@@ -12,7 +12,7 @@
 /* states in scanner DFA */
 typedef enum
 {
-	START, INASSIGN, INCOMMENT, INNUM, INID, DONE
+	START, INASSIGN, INPLUS, INCOMMENT, INNUM, INID, DONE
 }
 StateType;
 
@@ -108,6 +108,8 @@ TokenType getToken(void)
 				state = INID;
 			else if (c == ':')
 				state = INASSIGN;
+			else if (c == '+')
+				state = INPLUS;
 			else if ((c == ' ') || (c == '\t') || (c == '\n'))
 				save = FALSE;
 			else if (c == '{')
@@ -129,9 +131,6 @@ TokenType getToken(void)
 					break;
 				case '<':
 					currentToken = LT;
-					break;
-				case '+':
-					currentToken = PLUS;
 					break;
 				case '-':
 					currentToken = MINUS;
@@ -183,6 +182,17 @@ TokenType getToken(void)
 				currentToken = ERROR;
 			}
 			break;
+		case INPLUS:
+			state = DONE;
+			if (c == '=')
+				currentToken = PLUSASSIGN;
+			else
+			{
+				ungetNextChar();
+				save = FALSE;
+				currentToken = PLUS;
+			}
+			break;
 		case INNUM:
 			if (!isdigit(c))
 			{ /* backup in the input */
@@ -223,3 +233,24 @@ TokenType getToken(void)
 	}
 	return currentToken;
 } /* end getToken */
+
+string getlinebuf()
+{
+	string s = lineBuf;
+	return s;
+}
+int getlineno()
+{
+	return lineno;
+}
+
+void setlinebuf(string s)
+{
+	strcpy(lineBuf, s.c_str());
+}
+
+void setlineno(int n)
+{
+	lineno = n;
+	bufsize = strlen(lineBuf);
+}
