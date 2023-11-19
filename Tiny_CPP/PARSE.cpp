@@ -24,6 +24,8 @@ static TreeNode* exp(void);
 static TreeNode* simple_exp(void);
 static TreeNode* term(void);
 static TreeNode* factor(void);
+/* for loop */
+static TreeNode* for_stmt(void);
 
 static void syntaxError(std::string message)
 {
@@ -47,17 +49,21 @@ TreeNode* stmt_sequence(void)
     TreeNode* t = statement();
     TreeNode* p = t;
     while ((token != ENDFILE) && (token != END) &&
-        (token != ELSE) && (token != UNTIL))
+        (token != ELSE) && (token != UNTIL) && (token != ENDDO))
     {
         TreeNode* q;
-        match(SEMI);
-        q = statement();
-        if (q != NULL) {
-            if (t == NULL) t = p = q;
-            else /* now p cannot be NULL either */
-            {
-                p->sibling = q;
-                p = q;
+        if (token == SEMI) match(SEMI);
+        if(((token != ENDFILE) && (token != END) &&
+            (token != ELSE) && (token != UNTIL) && (token != ENDDO)))
+        {
+            q = statement();
+            if (q != NULL) {
+                if (t == NULL) t = p = q;
+                else /* now p cannot be NULL either */
+                {
+                    p->sibling = q;
+                    p = q;
+                }
             }
         }
     }
@@ -76,6 +82,7 @@ TreeNode* statement(void)
     case ID: t = assign_stmt(); break;
     case READ: t = read_stmt(); break;
     case WRITE: t = write_stmt(); break;
+    case FOR: t = for_stmt(); break;
     default: syntaxError("unexpected token -> ");
         printToken(token, tokenString);
         token = getToken();
@@ -227,6 +234,28 @@ TreeNode* factor(void)
         break;
     }
     return t;
+}
+
+// À©³äµÄfor stmt
+TreeNode* for_stmt(void)
+{
+    TreeNode* t = newStmtNode(ForK);
+	match(FOR);
+	if (t != NULL) t->child[0] = assign_stmt();
+    if (token == TO)
+    {
+        match(TO);
+        if (t != NULL) t->child[1] = simple_exp();
+    }
+    else
+    {
+        match(DOWNTO);
+        if (t != NULL) t->child[1] = simple_exp();
+    }
+    match(DO);
+	if (t != NULL) t->child[2] = stmt_sequence();
+    match(ENDDO);
+	return t;
 }
 
 /****************************************/
