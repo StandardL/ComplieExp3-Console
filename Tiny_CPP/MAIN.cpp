@@ -1,4 +1,4 @@
-﻿/****************************************************/
+/****************************************************/
 /* File: main.c                                     */
 /* Main program for TINY compiler                   */
 /* Compiler Construction: Principles and Practice   */

@@ -1,4 +1,4 @@
-﻿/****************************************************/
+/****************************************************/
 /* File: scan.c                                     */
 /* The scanner implementation for the TINY compiler */
 /* Compiler Construction: Principles and Practice   */

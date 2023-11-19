@@ -1,4 +1,4 @@
-﻿/****************************************************/
+/****************************************************/
 /* File: globals.h                                  */
 /* Global types and vars for TINY compiler          */
 /* must come before other include files             */

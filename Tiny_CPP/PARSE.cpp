@@ -1,4 +1,4 @@
-ï»¿/****************************************************/
+/****************************************************/
 /* File: parse.c                                    */
 /* The parser implementation for the TINY compiler  */
 /* Compiler Construction: Principles and Practice   */
@@ -145,15 +145,15 @@ TreeNode* assign_stmt(void)
     return t;
 }
 
-// å¤„ç†+=
+// ´¦Àí+=
 void assign_complex(TokenType t)
 {
     string buf = getlinebuf();
     int no = getlineno();
     
-    // æ‰¾+=ç¬¦å·çš„ä½ç½®
+    // ÕÒ+=·ûºÅµÄÎ»ÖÃ
     int pos_op = buf.find("+=");
-    // ä¿®æ”¹ä¸º:= id + çš„ç»“æž„
+    // ÐÞ¸ÄÎª:= id + µÄ½á¹¹
     string id = buf.substr(0, pos_op);
     string newbuf = id + ":=" + id + "+ " + buf.substr(pos_op + 2, buf.length() - pos_op - 2);
     int newno = pos_op + 2;
@@ -182,7 +182,7 @@ TreeNode* write_stmt(void)
 TreeNode* exp(void)
 {
     TreeNode* t = simple_exp();
-    if ((token == LT) || (token == EQ) || (token == LEQ) || (token == GEQ) || (token == NEQ)) {
+    if ((token == LT) || (token == GT) || (token == EQ) || (token == LEQ) || (token == GEQ) || (token == NEQ)) {
         TreeNode* p = newExpNode(OpK);
         if (p != NULL) {
             p->child[0] = t;
@@ -230,7 +230,7 @@ TreeNode* term(void)
     return t;
 }
 
-// ä¿®æ”¹factorä¸ºpower
+// ÐÞ¸ÄfactorÎªpower
 TreeNode* factor(void)
 {
     TreeNode* t = power();
@@ -279,7 +279,7 @@ TreeNode* power(void)
     return t;
 }
 
-// æ‰©å……çš„for stmt
+// À©³äµÄfor stmt
 TreeNode* for_stmt(void)
 {
     TreeNode* t = newStmtNode(ForK);
