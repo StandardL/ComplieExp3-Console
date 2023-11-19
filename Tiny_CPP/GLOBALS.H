@@ -36,7 +36,7 @@ typedef enum
 	/* multicharacter tokens */
 	ID, NUM,
 	/* special symbols */
-	ASSIGN, PLUSASSIGN, EQ, LT, GT, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI, REM, POW,
+	ASSIGN, PLUSASSIGN, EQ, LT, GT, LEQ, GEQ, NEQ, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI, REM, POW,
 	/* for loop */
 	FOR, TO, DO, DOWNTO, ENDDO
 } TokenType;

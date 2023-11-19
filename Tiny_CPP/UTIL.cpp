@@ -30,7 +30,11 @@ void printToken(TokenType token, const char* tokenString)
 	case ASSIGN: fprintf(listing, ":=\n"); break;
 	case PLUSASSIGN: fprintf(listing, "+:=\n"); break;
 	case LT: fprintf(listing, "<\n"); break;
+	case LEQ: fprintf(listing, "<=\n"); break;
+	case GT: fprintf(listing, ">\n"); break;
+	case GEQ: fprintf(listing, ">=\n"); break;
 	case EQ: fprintf(listing, "=\n"); break;
+	case NEQ: fprintf(listing, "<>\n"); break;
 	case LPAREN: fprintf(listing, "(\n"); break;
 	case RPAREN: fprintf(listing, ")\n"); break;
 	case SEMI: fprintf(listing, ";\n"); break;

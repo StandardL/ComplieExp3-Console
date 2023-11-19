@@ -136,7 +136,7 @@ TreeNode* assign_stmt(void)
     match(ID);
     if (token == ASSIGN) 
         match(ASSIGN);
-    else 
+    else if (token == PLUSASSIGN)
     {
         assign_complex(PLUSASSIGN);
         match(PLUSASSIGN);
@@ -182,7 +182,7 @@ TreeNode* write_stmt(void)
 TreeNode* exp(void)
 {
     TreeNode* t = simple_exp();
-    if ((token == LT) || (token == EQ)) {
+    if ((token == LT) || (token == EQ) || (token == LEQ) || (token == GEQ) || (token == NEQ)) {
         TreeNode* p = newExpNode(OpK);
         if (p != NULL) {
             p->child[0] = t;

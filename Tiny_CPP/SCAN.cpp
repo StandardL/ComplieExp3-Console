@@ -12,7 +12,7 @@
 /* states in scanner DFA */
 typedef enum
 {
-	START, INASSIGN, INPLUS, INCOMMENT, INNUM, INID, DONE
+	START, INASSIGN, INPLUS, INLESS, INGREAT, INCOMMENT, INNUM, INID, DONE
 }
 StateType;
 
@@ -110,6 +110,10 @@ TokenType getToken(void)
 				state = INASSIGN;
 			else if (c == '+')
 				state = INPLUS;
+			else if (c == '<')
+				state = INLESS;
+			else if (c == '>')
+				state = INGREAT;
 			else if ((c == ' ') || (c == '\t') || (c == '\n'))
 				save = FALSE;
 			else if (c == '{')
@@ -128,9 +132,6 @@ TokenType getToken(void)
 					break;
 				case '=':
 					currentToken = EQ;
-					break;
-				case '<':
-					currentToken = LT;
 					break;
 				case '-':
 					currentToken = MINUS;
@@ -191,6 +192,36 @@ TokenType getToken(void)
 				ungetNextChar();
 				save = FALSE;
 				currentToken = PLUS;
+			}
+			break;
+		case INLESS:
+			state = DONE;
+			if (c == '=')
+			{
+				currentToken = LEQ;
+			}
+			else if (c == '>')
+			{
+				currentToken = NEQ;
+			}
+			else
+			{
+				ungetNextChar();
+				save = FALSE;
+				currentToken = LT;
+			}
+			break;
+		case INGREAT:
+			state = DONE;
+			if (c == '=')
+			{
+				currentToken = GEQ;
+			}
+			else
+			{
+				ungetNextChar();
+				save = FALSE;
+				currentToken = GT;
 			}
 			break;
 		case INNUM:
