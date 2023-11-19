@@ -1,4 +1,4 @@
-/****************************************************/
+﻿/****************************************************/
 /* File: code.h                                     */
 /* Code emitting utilities for the TINY compiler    */
 /* and interface to the TM machine                  */

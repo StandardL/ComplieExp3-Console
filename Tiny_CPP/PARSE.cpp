@@ -1,4 +1,4 @@
-/****************************************************/
+﻿/****************************************************/
 /* File: parse.c                                    */
 /* The parser implementation for the TINY compiler  */
 /* Compiler Construction: Principles and Practice   */
@@ -18,12 +18,14 @@ static TreeNode* statement(void);
 static TreeNode* if_stmt(void);
 static TreeNode* repeat_stmt(void);
 static TreeNode* assign_stmt(void);
+static void assign_complex(TokenType t);
 static TreeNode* read_stmt(void);
 static TreeNode* write_stmt(void);
 static TreeNode* exp(void);
 static TreeNode* simple_exp(void);
 static TreeNode* term(void);
 static TreeNode* factor(void);
+static TreeNode* power(void);  // ^
 /* for loop */
 static TreeNode* for_stmt(void);
 
@@ -132,9 +134,31 @@ TreeNode* assign_stmt(void)
     if ((t != NULL) && (token == ID))
         t->attr.name = copyString(tokenString);
     match(ID);
-    match(ASSIGN);
+    if (token == ASSIGN) 
+        match(ASSIGN);
+    else 
+    {
+        assign_complex(PLUSASSIGN);
+        match(PLUSASSIGN);
+    }
     if (t != NULL) t->child[0] = exp();
     return t;
+}
+
+// 处理+=
+void assign_complex(TokenType t)
+{
+    string buf = getlinebuf();
+    int no = getlineno();
+    
+    // 找+=符号的位置
+    int pos_op = buf.find("+=");
+    // 修改为:= id + 的结构
+    string id = buf.substr(0, pos_op);
+    string newbuf = id + ":=" + id + "+ " + buf.substr(pos_op + 2, buf.length() - pos_op - 2);
+    int newno = pos_op + 2;
+    setlinebuf(newbuf);
+    setlineno(newno);
 }
 
 TreeNode* read_stmt(void)
@@ -192,7 +216,7 @@ TreeNode* simple_exp(void)
 TreeNode* term(void)
 {
     TreeNode* t = factor();
-    while ((token == TIMES) || (token == OVER))
+    while ((token == TIMES) || (token == OVER) || (token == REM))
     {
         TreeNode* p = newExpNode(OpK);
         if (p != NULL) {
@@ -206,7 +230,26 @@ TreeNode* term(void)
     return t;
 }
 
+// 修改factor为power
 TreeNode* factor(void)
+{
+    TreeNode* t = power();
+    while ((token == POW))
+    {
+		TreeNode* p = newExpNode(OpK);
+        if (p != NULL) {
+			p->child[0] = t;
+			p->attr.op = token;
+			t = p;
+			match(token);
+			p->child[1] = power();
+		}
+	}
+	return t;
+}
+
+// ^
+TreeNode* power(void)
 {
     TreeNode* t = NULL;
     switch (token) {
@@ -236,7 +279,7 @@ TreeNode* factor(void)
     return t;
 }
 
-// �����for stmt
+// 扩充的for stmt
 TreeNode* for_stmt(void)
 {
     TreeNode* t = newStmtNode(ForK);

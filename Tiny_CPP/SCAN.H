@@ -1,4 +1,4 @@
-/****************************************************/
+﻿/****************************************************/
 /* File: scan.h                                     */
 /* The scanner interface for the TINY compiler      */
 /* Compiler Construction: Principles and Practice   */
@@ -18,5 +18,10 @@ extern char tokenString[MAXTOKENLEN+1];
  * next token in source file
  */
 TokenType getToken(void);
+string getlinebuf();
+int getlineno();
+void setlinebuf(string s);
+void setlineno(int n);
+
 
 #endif
