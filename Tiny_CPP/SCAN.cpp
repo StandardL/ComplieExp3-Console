@@ -12,7 +12,7 @@
 /* states in scanner DFA */
 typedef enum
 {
-	START, INASSIGN, INPLUS, INLESS, INGREAT, INCOMMENT, INNUM, INID, DONE
+	START, INASSIGN, INPLUS, INLESS, INGREAT, INCOMMENT, INNUM, INID, DONE, INREGULAR
 }
 StateType;
 
@@ -116,6 +116,8 @@ TokenType getToken(void)
 				state = INGREAT;
 			else if ((c == ' ') || (c == '\t') || (c == '\n'))
 				save = FALSE;
+			else if (c == '|' || c == '#' || c == '?')
+				state = INREGULAR;
 			else if (c == '{')
 			{
 				save = FALSE;
@@ -254,6 +256,12 @@ TokenType getToken(void)
 		if (state == DONE)
 		{
 			tokenString[tokenStringIndex] = '\0';
+			if (strcmp(tokenString, "and") == 0)
+				currentToken = BITAND;
+			if (strcmp(tokenString, "or") == 0)
+				currentToken = BITOR;
+			if (strcmp(tokenString, "not") == 0)
+				currentToken = BITNOT;
 			if (currentToken == ID)
 				currentToken = reservedLookup(tokenString);
 		}

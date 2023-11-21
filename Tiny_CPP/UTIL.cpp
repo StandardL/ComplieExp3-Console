@@ -45,6 +45,9 @@ void printToken(TokenType token, const char* tokenString)
 	case POW: fprintf(listing, "^\n"); break;
 	case OVER: fprintf(listing, "/\n"); break;
 	case ENDFILE: fprintf(listing, "EOF\n"); break;
+	case BITAND: fprintf(listing, "and\n"); break;
+	case BITOR: fprintf(listing, "or\n"); break;
+	case BITNOT: fprintf(listing, "not\n"); break;
 	case NUM:
 		fprintf(listing,
 			"NUM, val= %s\n", tokenString);

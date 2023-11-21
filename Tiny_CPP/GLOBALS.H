@@ -38,7 +38,11 @@ typedef enum
 	/* special symbols */
 	ASSIGN, PLUSASSIGN, EQ, LT, GT, LEQ, GEQ, NEQ, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI, REM, POW,
 	/* for loop */
-	FOR, TO, DO, DOWNTO, ENDDO
+	FOR, TO, DO, DOWNTO, ENDDO,
+	/* Regular Expressions */
+	RE, RT, RC, RF,
+	/* Bit symbols */
+	BITAND, BITOR, BITNOT
 } TokenType;
 
 extern FILE* source; /* source code text file */
