@@ -408,7 +408,7 @@ void reexp()
 	strcpy(tokenString, tks.c_str());
 }
 
-TreeNode* re_or()
+TreeNode* re_or() // |
 {
 	TreeNode* t = re_t();
 	while ((token == RE)) {
@@ -425,10 +425,10 @@ TreeNode* re_or()
 	return t;
 }
 
-TreeNode* re_t()
+TreeNode* re_t()  // &
 {
 	TreeNode* t = re_closure();
-	if ((token == RT)) {
+	while ((token == RT)) {
 		TreeNode* p = newExpNode(OpK);
 		if (p != NULL) {
 			p->child[0] = t;
@@ -442,10 +442,10 @@ TreeNode* re_t()
 	return t;
 }
 
-TreeNode* re_closure()
+TreeNode* re_closure()  // # or ?
 {
 	TreeNode* t = re_factor();
-	while ((token == RCS) || (token == RCQ)) {
+	if ((token == RCS) || (token == RCQ)) {
 		TreeNode* p = newExpNode(OpK);
 		if (p != NULL) {
 			p->child[0] = t;
