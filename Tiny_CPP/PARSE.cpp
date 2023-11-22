@@ -16,6 +16,7 @@ static TokenType token; /* holds current token */
 static TreeNode* stmt_sequence(void);
 static TreeNode* statement(void);
 static TreeNode* if_stmt(void);
+static TreeNode* else_stmt(void);
 static TreeNode* repeat_stmt(void);
 static TreeNode* assign_stmt(void);
 static void assign_complex(TokenType t);
@@ -118,10 +119,17 @@ TreeNode* if_stmt(void)
 	}
 	if (t != NULL) t->child[1] = stmt_sequence();
 	if (token == ELSE) {
-		match(ELSE);
-		if (t != NULL) t->child[2] = stmt_sequence();
+		if (t != NULL) t->child[2] = else_stmt();
 	}
 	//match(END);
+	return t;
+}
+
+TreeNode* else_stmt(void)
+{
+	TreeNode* t = newStmtNode(ElseK);
+	match(ELSE);
+	if (t != NULL) t->child[0] = stmt_sequence();
 	return t;
 }
 

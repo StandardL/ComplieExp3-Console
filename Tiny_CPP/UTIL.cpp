@@ -53,6 +53,11 @@ void printToken(TokenType token, const char* tokenString)
 	case RCS: fprintf(listing, "#\n"); break;
 	case RCQ: fprintf(listing, "?\n"); break;
 	case RT: fprintf(listing, "&\n"); break;
+	case TO: fprintf(listing, "to\n"); break;
+	case DOWNTO: fprintf(listing, "downto\n"); break;
+	case FOR: fprintf(listing, "for\n"); break;
+	case DO: fprintf(listing, "do\n"); break;
+	case ENDDO: fprintf(listing, "enddo\n"); break;
 	case NUM:
 		fprintf(listing,
 			"NUM, val= %s\n", tokenString);
@@ -156,6 +161,9 @@ void printTree(TreeNode* tree)
 			switch (tree->kind.stmt) {
 			case IfK:
 				fprintf(listing, "If\n");
+				break;
+			case ElseK:
+				fprintf(listing, "Else\n");
 				break;
 			case RepeatK:
 				fprintf(listing, "Repeat\n");
