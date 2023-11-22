@@ -1,4 +1,4 @@
-﻿/****************************************************/
+/****************************************************/
 /* File: symtab.h                                   */
 /* Symbol table interface for the TINY compiler     */
 /* (allows only one symbol table)                   */

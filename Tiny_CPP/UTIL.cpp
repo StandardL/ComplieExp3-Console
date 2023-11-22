@@ -1,4 +1,4 @@
-﻿/****************************************************/
+/****************************************************/
 /* File: util.c                                     */
 /* Utility function implementation                  */
 /* for the TINY compiler                            */
@@ -30,7 +30,11 @@ void printToken(TokenType token, const char* tokenString)
 	case ASSIGN: fprintf(listing, ":=\n"); break;
 	case PLUSASSIGN: fprintf(listing, "+:=\n"); break;
 	case LT: fprintf(listing, "<\n"); break;
+	case LEQ: fprintf(listing, "<=\n"); break;
+	case GT: fprintf(listing, ">\n"); break;
+	case GEQ: fprintf(listing, ">=\n"); break;
 	case EQ: fprintf(listing, "=\n"); break;
+	case NEQ: fprintf(listing, "<>\n"); break;
 	case LPAREN: fprintf(listing, "(\n"); break;
 	case RPAREN: fprintf(listing, ")\n"); break;
 	case SEMI: fprintf(listing, ";\n"); break;
@@ -41,6 +45,14 @@ void printToken(TokenType token, const char* tokenString)
 	case POW: fprintf(listing, "^\n"); break;
 	case OVER: fprintf(listing, "/\n"); break;
 	case ENDFILE: fprintf(listing, "EOF\n"); break;
+	case BITAND: fprintf(listing, "and\n"); break;
+	case BITOR: fprintf(listing, "or\n"); break;
+	case BITNOT: fprintf(listing, "not\n"); break;
+	case REEXP: fprintf(listing, "Regular Expression\n"); break;
+	case RE: fprintf(listing, "|\n"); break;
+	case RCS: fprintf(listing, "#\n"); break;
+	case RCQ: fprintf(listing, "?\n"); break;
+	case RT: fprintf(listing, "&\n"); break;
 	case NUM:
 		fprintf(listing,
 			"NUM, val= %s\n", tokenString);

@@ -1,4 +1,4 @@
-﻿/****************************************************/
+/****************************************************/
 /* File: scan.c                                     */
 /* The scanner implementation for the TINY compiler */
 /* Compiler Construction: Principles and Practice   */
@@ -12,7 +12,7 @@
 /* states in scanner DFA */
 typedef enum
 {
-	START, INASSIGN, INPLUS, INCOMMENT, INNUM, INID, DONE
+	START, INASSIGN, INPLUS, INLESS, INGREAT, INCOMMENT, INNUM, INID, DONE, INREGULAR, INREEXP
 }
 StateType;
 
@@ -110,8 +110,14 @@ TokenType getToken(void)
 				state = INASSIGN;
 			else if (c == '+')
 				state = INPLUS;
+			else if (c == '<')
+				state = INLESS;
+			else if (c == '>')
+				state = INGREAT;
 			else if ((c == ' ') || (c == '\t') || (c == '\n'))
 				save = FALSE;
+			else if (c == '$')
+				state = INREGULAR;
 			else if (c == '{')
 			{
 				save = FALSE;
@@ -128,9 +134,6 @@ TokenType getToken(void)
 					break;
 				case '=':
 					currentToken = EQ;
-					break;
-				case '<':
-					currentToken = LT;
 					break;
 				case '-':
 					currentToken = MINUS;
@@ -152,6 +155,18 @@ TokenType getToken(void)
 					break;
 				case ')':
 					currentToken = RPAREN;
+					break;
+				case '|':
+					currentToken = RE;
+					break;
+				case '#':
+					currentToken = RCS;
+					break;
+				case '?':
+					currentToken = RCQ;
+					break;
+				case '&':
+					currentToken = RT;
 					break;
 				case ';':
 					currentToken = SEMI;
@@ -193,6 +208,43 @@ TokenType getToken(void)
 				currentToken = PLUS;
 			}
 			break;
+		case INLESS:
+			state = DONE;
+			if (c == '=')
+			{
+				currentToken = LEQ;
+			}
+			else if (c == '>')
+			{
+				currentToken = NEQ;
+			}
+			else
+			{
+				ungetNextChar();
+				save = FALSE;
+				currentToken = LT;
+			}
+			break;
+		case INGREAT:
+			state = DONE;
+			if (c == '=')
+			{
+				currentToken = GEQ;
+			}
+			else
+			{
+				ungetNextChar();
+				save = FALSE;
+				currentToken = GT;
+			}
+			break;
+		case INREGULAR:
+			state = DONE;
+			if (c != '$')
+			{
+				currentToken = REEXP;
+			}
+			break;
 		case INNUM:
 			if (!isdigit(c))
 			{ /* backup in the input */
@@ -223,6 +275,12 @@ TokenType getToken(void)
 		if (state == DONE)
 		{
 			tokenString[tokenStringIndex] = '\0';
+			if (strcmp(tokenString, "and") == 0)
+				currentToken = BITAND;
+			if (strcmp(tokenString, "or") == 0)
+				currentToken = BITOR;
+			if (strcmp(tokenString, "not") == 0)
+				currentToken = BITNOT;
 			if (currentToken == ID)
 				currentToken = reservedLookup(tokenString);
 		}
@@ -249,8 +307,8 @@ void setlinebuf(string s)
 	strcpy(lineBuf, s.c_str());
 }
 
-void setlineno(int n)
+void setlinepos(int n)
 {
-	lineno = n;
+	linepos = n;
 	bufsize = strlen(lineBuf);
 }

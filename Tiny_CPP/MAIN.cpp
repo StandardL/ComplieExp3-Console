@@ -1,4 +1,4 @@
-﻿/****************************************************/
+/****************************************************/
 /* File: main.c                                     */
 /* Main program for TINY compiler                   */
 /* Compiler Construction: Principles and Practice   */
@@ -45,7 +45,7 @@ int TraceParse = TRUE;
 int TraceAnalyze = FALSE;
 int TraceCode = FALSE;
 
-int Error = FALSE;
+int Error = TRUE;
 
 int main(int argc, char* argv[])
 {

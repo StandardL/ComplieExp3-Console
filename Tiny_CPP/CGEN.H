@@ -1,4 +1,4 @@
-﻿/****************************************************/
+/****************************************************/
 /* File: cgen.h                                     */
 /* The code generator interface to the TINY compiler*/
 /* Compiler Construction: Principles and Practice   */

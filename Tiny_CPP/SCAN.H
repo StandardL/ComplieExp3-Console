@@ -1,4 +1,4 @@
-﻿/****************************************************/
+/****************************************************/
 /* File: scan.h                                     */
 /* The scanner interface for the TINY compiler      */
 /* Compiler Construction: Principles and Practice   */
@@ -21,7 +21,7 @@ TokenType getToken(void);
 string getlinebuf();
 int getlineno();
 void setlinebuf(string s);
-void setlineno(int n);
+void setlinepos(int n);
 
 
 #endif

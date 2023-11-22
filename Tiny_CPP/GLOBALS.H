@@ -1,4 +1,4 @@
-﻿/****************************************************/
+/****************************************************/
 /* File: globals.h                                  */
 /* Global types and vars for TINY compiler          */
 /* must come before other include files             */
@@ -36,9 +36,13 @@ typedef enum
 	/* multicharacter tokens */
 	ID, NUM,
 	/* special symbols */
-	ASSIGN, PLUSASSIGN, EQ, LT, GT, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI, REM, POW,
+	ASSIGN, PLUSASSIGN, EQ, LT, GT, LEQ, GEQ, NEQ, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI, REM, POW,
 	/* for loop */
-	FOR, TO, DO, DOWNTO, ENDDO
+	FOR, TO, DO, DOWNTO, ENDDO,
+	/* Regular Expressions */
+	RE, RT, RCS, RCQ, RF, REEXP,
+	/* Bit symbols */
+	BITAND, BITOR, BITNOT
 } TokenType;
 
 extern FILE* source; /* source code text file */
