@@ -1,3 +1,4 @@
+reg := $a#|b&l&(l|d)$
 reg := $l&(l|d)#$
 a := 1 and 2;
 b := 3 or 4;
