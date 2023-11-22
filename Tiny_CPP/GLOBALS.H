@@ -40,7 +40,7 @@ typedef enum
 	/* for loop */
 	FOR, TO, DO, DOWNTO, ENDDO,
 	/* Regular Expressions */
-	RE, RT, RC, RF,
+	RE, RT, RCS, RCQ, RF, REEXP,
 	/* Bit symbols */
 	BITAND, BITOR, BITNOT
 } TokenType;

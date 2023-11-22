@@ -12,7 +12,7 @@
 /* states in scanner DFA */
 typedef enum
 {
-	START, INASSIGN, INPLUS, INLESS, INGREAT, INCOMMENT, INNUM, INID, DONE, INREGULAR
+	START, INASSIGN, INPLUS, INLESS, INGREAT, INCOMMENT, INNUM, INID, DONE, INREGULAR, INREEXP
 }
 StateType;
 
@@ -116,7 +116,7 @@ TokenType getToken(void)
 				state = INGREAT;
 			else if ((c == ' ') || (c == '\t') || (c == '\n'))
 				save = FALSE;
-			else if (c == '|' || c == '#' || c == '?')
+			else if (c == '$')
 				state = INREGULAR;
 			else if (c == '{')
 			{
@@ -155,6 +155,18 @@ TokenType getToken(void)
 					break;
 				case ')':
 					currentToken = RPAREN;
+					break;
+				case '|':
+					currentToken = RE;
+					break;
+				case '#':
+					currentToken = RCS;
+					break;
+				case '?':
+					currentToken = RCQ;
+					break;
+				case '&':
+					currentToken = RT;
 					break;
 				case ';':
 					currentToken = SEMI;
@@ -226,6 +238,13 @@ TokenType getToken(void)
 				currentToken = GT;
 			}
 			break;
+		case INREGULAR:
+			state = DONE;
+			if (c != '$')
+			{
+				currentToken = REEXP;
+			}
+			break;
 		case INNUM:
 			if (!isdigit(c))
 			{ /* backup in the input */
@@ -288,8 +307,8 @@ void setlinebuf(string s)
 	strcpy(lineBuf, s.c_str());
 }
 
-void setlineno(int n)
+void setlinepos(int n)
 {
-	lineno = n;
+	linepos = n;
 	bufsize = strlen(lineBuf);
 }

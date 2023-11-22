@@ -29,9 +29,14 @@ static TreeNode* term(void);
 static TreeNode* power(void);  // ^
 static TreeNode* _bitnot(void);
 static TreeNode* factor(void);
-
 /* for loop */
 static TreeNode* for_stmt(void);
+/* regualr expression */
+static void reexp();
+static TreeNode* re_or();
+static TreeNode* re_t();
+static TreeNode* re_closure();
+static TreeNode* re_factor();
 
 static void syntaxError(std::string message)
 {
@@ -145,9 +150,14 @@ TreeNode* assign_stmt(void)
 		assign_complex(PLUSASSIGN);
 		match(PLUSASSIGN);
 	}
-	if (token == RE)
-	{
 
+	if (token == REEXP)
+	{
+		reexp();
+		match(REEXP);
+		if (t != NULL) t->child[0] = re_or();
+		
+		//Regular = false;
 	}
 	else if (t != NULL) t->child[0] = exp();
 	return t;
@@ -166,7 +176,7 @@ void assign_complex(TokenType t)
 	string newbuf = id + ":=" + id + "+ " + buf.substr(pos_op + 2, buf.length() - pos_op - 2);
 	int newno = pos_op + 2;
 	setlinebuf(newbuf);
-	setlineno(newno);
+	setlinepos(newno);
 }
 
 TreeNode* read_stmt(void)
@@ -313,7 +323,6 @@ TreeNode* _bitnot(void)
 	return t;
 }
 
-
 TreeNode* factor(void)
 {
 	TreeNode* t = NULL;
@@ -363,6 +372,110 @@ TreeNode* for_stmt(void)
 	match(DO);
 	if (t != NULL) t->child[2] = stmt_sequence();
 	match(ENDDO);
+	return t;
+}
+
+void reexp()
+{
+	/*
+	* TODO:
+	* Remove '$' symbols in linebuf and tokenString,
+	* Then, enter re_or() to process regular expresion.
+	*/
+	string buf = getlinebuf();
+	int pos = buf.find('$');
+	while (pos != buf.npos)
+	{
+		buf.erase(pos, 1);
+		pos = buf.find('$');
+	}
+	/* get ':=' positon */
+	pos = buf.find(":=");
+	pos += 2;  // skip := and first letter.
+	setlinebuf(buf);
+	setlinepos(pos);
+	//Regular = true;
+	string tks = tokenString;
+	tks.erase(tks.find('$'), 1);
+	strcpy(tokenString, tks.c_str());
+}
+
+TreeNode* re_or()
+{
+	TreeNode* t = re_t();
+	while ((token == RE)) {
+		TreeNode* p = newExpNode(OpK);
+		if (p != NULL) {
+			p->child[0] = t;
+			p->attr.op = token;
+			t = p;
+		}
+		match(token);
+		if (t != NULL)
+			t->child[1] = re_t();
+	}
+	return t;
+}
+
+TreeNode* re_t()
+{
+	TreeNode* t = re_closure();
+	if ((token == RT)) {
+		TreeNode* p = newExpNode(OpK);
+		if (p != NULL) {
+			p->child[0] = t;
+			p->attr.op = token;
+			t = p;
+		}
+		match(token);
+		if (t != NULL)
+			t->child[1] = re_closure();
+	}
+	return t;
+}
+
+TreeNode* re_closure()
+{
+	TreeNode* t = re_factor();
+	while ((token == RCS) || (token == RCQ)) {
+		TreeNode* p = newExpNode(OpK);
+		if (p != NULL) {
+			p->child[0] = t;
+			p->attr.op = token;
+			t = p;
+			match(token);
+		}
+	}
+	return t;
+}
+
+TreeNode* re_factor()
+{
+	TreeNode* t = NULL;
+	switch (token) {
+	case NUM:
+		t = newExpNode(ConstK);
+		if ((t != NULL) && (token == NUM))
+			t->attr.val = atoi(tokenString);
+		match(NUM);
+		break;
+	case ID:
+		t = newExpNode(IdK);
+		if ((t != NULL) && (token == ID))
+			t->attr.name = copyString(tokenString);
+		match(ID);
+		break;
+	case LPAREN:
+		match(LPAREN);
+		t = re_or();
+		match(RPAREN);
+		break;
+	default:
+		syntaxError("unexpected token -> ");
+		printToken(token, tokenString);
+		token = getToken();
+		break;
+	}
 	return t;
 }
 

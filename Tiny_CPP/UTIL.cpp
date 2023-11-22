@@ -48,6 +48,11 @@ void printToken(TokenType token, const char* tokenString)
 	case BITAND: fprintf(listing, "and\n"); break;
 	case BITOR: fprintf(listing, "or\n"); break;
 	case BITNOT: fprintf(listing, "not\n"); break;
+	case REEXP: fprintf(listing, "Regular Expression\n"); break;
+	case RE: fprintf(listing, "|\n"); break;
+	case RCS: fprintf(listing, "#\n"); break;
+	case RCQ: fprintf(listing, "?\n"); break;
+	case RT: fprintf(listing, "&\n"); break;
 	case NUM:
 		fprintf(listing,
 			"NUM, val= %s\n", tokenString);

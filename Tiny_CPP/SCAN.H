@@ -21,7 +21,7 @@ TokenType getToken(void);
 string getlinebuf();
 int getlineno();
 void setlinebuf(string s);
-void setlineno(int n);
+void setlinepos(int n);
 
 
 #endif
