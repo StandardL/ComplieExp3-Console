@@ -1,3 +1,7 @@
+reg := $l&(l|d)#$
+a := 1 and 2;
+b := 3 or 4;
+c := not 5;
 read x;
 if(0<x)
   fact := 1;
