@@ -18,5 +18,10 @@ extern char tokenString[MAXTOKENLEN+1];
  * next token in source file
  */
 TokenType getToken(void);
+string getlinebuf();
+int getlineno();
+void setlinebuf(string s);
+void setlinepos(int n);
+
 
 #endif

@@ -40,12 +40,12 @@ FILE* code;
 
 /* allocate and set tracing flags */
 int EchoSource = FALSE;
-int TraceScan = FALSE;
-int TraceParse = FALSE;
+int TraceScan = TRUE;
+int TraceParse = TRUE;
 int TraceAnalyze = FALSE;
 int TraceCode = FALSE;
 
-int Error = FALSE;
+int Error = TRUE;
 
 int main(int argc, char* argv[])
 {
@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
     if (!Error)
     {
         char* codefile;
-        int fnlen = strcspn(pgm, ".");
+        int fnlen = strcspn("Test.txt", ".");
         codefile = (char*)calloc(fnlen + 4, sizeof(char));
         strncpy(codefile, pgm, fnlen);
         strcat(codefile, ".tm");
@@ -109,6 +109,7 @@ int main(int argc, char* argv[])
             printf("Unable to open %s\n", codefile);
             exit(1);
         }
+        printf("Code save successfully.\n");
         codeGen(syntaxTree, codefile);
         fclose(code);
     }

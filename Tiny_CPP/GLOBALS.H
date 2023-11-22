@@ -14,6 +14,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <string>
+using std::string;
 
 #ifndef FALSE
 #define FALSE 0
@@ -24,7 +25,7 @@
 #endif
 
 /* MAXRESERVED = the number of reserved words */
-#define MAXRESERVED 8
+#define MAXRESERVED 13
 
 typedef enum
 /* book-keeping tokens */
@@ -35,9 +36,13 @@ typedef enum
 	/* multicharacter tokens */
 	ID, NUM,
 	/* special symbols */
-	ASSIGN, EQ, LT, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI,
+	ASSIGN, PLUSASSIGN, EQ, LT, GT, LEQ, GEQ, NEQ, PLUS, MINUS, TIMES, OVER, LPAREN, RPAREN, SEMI, REM, POW,
 	/* for loop */
-	FOR, TO, DO, DOWNTO
+	FOR, TO, DO, DOWNTO, ENDDO,
+	/* Regular Expressions */
+	RE, RT, RCS, RCQ, RF, REEXP,
+	/* Bit symbols */
+	BITAND, BITOR, BITNOT
 } TokenType;
 
 extern FILE* source; /* source code text file */
@@ -51,7 +56,7 @@ extern int lineno; /* source line number for listing */
 /**************************************************/
 
 typedef enum { StmtK, ExpK } NodeKind;
-typedef enum { IfK, RepeatK, AssignK, ReadK, WriteK } StmtKind;
+typedef enum { IfK, RepeatK, AssignK, ReadK, WriteK, ForK } StmtKind;
 typedef enum { OpK, ConstK, IdK } ExpKind;
 
 /* ExpType is used for type checking */

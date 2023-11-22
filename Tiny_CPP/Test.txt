@@ -5,12 +5,16 @@ c := not 5;
 read x;
 if(0<x)
   fact := 1;
+  fact := x % 2;
+  fact := x ^ 2;
+  temp += 1;
   repeat
     fact := fact * x;
     x := x - 1
   until x = 0;
   write fact
 else
+  fact := 1;
   for fact := x downto 1 do 
     fact := fact * x;
   enddo
