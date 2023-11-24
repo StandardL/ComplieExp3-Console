@@ -21,4 +21,8 @@ else
   for fact := x to 2 do
     fact += 2;
   enddo
-  write fact;
+if (0<=x)
+  if (0>x)
+    if (0>=x)
+      if (0<>x)
+        write fact
